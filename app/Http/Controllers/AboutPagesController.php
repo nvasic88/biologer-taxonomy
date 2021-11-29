@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Repositories\StatsRepository;
+
+class AboutPagesController
+{
+    /**
+     * @var \App\Repositories\StatsRepository
+     */
+    private $stats;
+
+    /**
+     * @param  \App\Repositories\StatsRepository  $stats
+     * @return void
+     */
+    public function __construct(StatsRepository $stats)
+    {
+        $this->stats = $stats;
+    }
+
+    /**
+     * Display page for the local Biologer community.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function localCommunity()
+    {
+        return view('pages.about.local-community', $this->stats->getLocalCommunityData());
+    }
+
+    /**
+     * Show page with basic stats.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function stats()
+    {
+        return view('pages.about.stats', $this->stats->getStatsData());
+    }
+}
