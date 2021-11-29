@@ -1,65 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Biologer
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-## About Laravel
+Biologer is a tool for collecting data on species distribution with the help of community. It started as an effort to collect data on reptiles, amphibians and butterflies in Serbia, but can and will be used for other taxa. It can also can be extended for other territories, as it already has been for Croatia.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+You my run the application on your own servers but please note that we offer no support.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Biologer is built using [Laravel framework](https://laravel.com).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Install
 
-## Learning Laravel
+The installation and deployment process is typical for a Laravel application, and it is assumed you know how to do that. More info can be found online if needed.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Following requirements must be installed on the server for the application to work:
 
-## Laravel Sponsors
+- PHP >= 7.4
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- Ctype PHP Extension
+- JSON PHP Extension
+- GD PHP Extension
+- Imagick library and PHP Extension
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+You can check if requirements are installed on your server by opening `requirements.php` file in you browser (located in `public` directory).
 
-### Premium Partners
+### App
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Download the master branch
 
-## Contributing
+```bash
+git clone https://github.com/Biologer/Biologer.git
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Install the composer dependencies
 
-## Code of Conduct
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Make a copy of `.env.example` and rename to `.env`, adjust the environment variables.
 
-## Security Vulnerabilities
+Finally make sure you have set database configurations, then run migrations and seed the data:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate --seed
+```
+
+Install Laravel Passport clients and keys with:
+
+```bash
+php artisan passport:install
+```
+
+For time and resource consuming jobs such as sending emails, processing photos, importing and exporting data, queues are used. To start queue worker run:
+
+```bash
+php artisan queue:work --tries 3
+```
+
+You can use something like `supervisord` or `pm2` to make sure the process stays alive. If such tools are unavailable, you can run `start-queue.sh` script with a Cron job.
+
+### Assets
+
+#### Front-end
+
+Installing Biologer's front-end dependencies requires `yarn`.
+
+```
+yarn
+```
+
+Biologer uses [Laravel Mix](https://laravel.com/docs/mix) to build assets.
+To build assets run:
+
+```bash
+yarn run dev
+```
+
+Available build tasks are defined in `package.json`
+
+Code ships with assets built for production present in `public` directory by default.
+
+#### DEM
+
+Biologer allows users to import large sets of observations. If some of those are missing elevation, Biologer will try to get it by searching DEM with latitude and longitude. Files holding such information are not distributed with Biologer and need to be downloaded separately from [http://srtm.csi.cgiar.org/](http://srtm.csi.cgiar.org/).
+
+After downloading files for needed areas, place them in a single location without changing the names of the files. Default location for that is `resources/srtm`, but any other path can be used. In case you use a different path, you need to set `SRTM_PATH` in the `.env` file with that path.
+
+### Customization
+
+To add a new territory, add it to configuration in `config/biologer.php` using existing ones as an example and set it to be used in `.env` file. Also, you must provide map in SVG format that contains administrative borders and MGRS 10k fields (located in `resources/maps/mgrs10k`), so it can be used in the app. Check out existing ones to see how the SVG must be structured.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Biologer is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
