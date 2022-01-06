@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutPagesController;
 use App\Http\Controllers\Admin\AnnouncementsController as AdminAnnouncementsController;
 use App\Http\Controllers\Admin\TaxaController as AdminTaxaController;
+use App\Http\Controllers\Admin\TaxaImportController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -109,6 +110,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('taxa/new', [AdminTaxaController::class, 'create'])
                 ->middleware('role:admin,expert')
                 ->name('taxa.create');
+
+            Route::get('taxa/import', [TaxaImportController::class, 'index'])
+                ->name('taxa-import.index');
+
+            Route::view('taxa/import/guide', 'admin.taxon-import.guide')
+                ->name('taxa-import.guide');
 
             Route::get('users', [UsersController::class, 'index'])
                 ->middleware('can:list,App\User')

@@ -5,7 +5,7 @@ return [
         'browse' => 'Pregledaj podatke',
         'android_link' => 'Android aplikacija',
         'android_title' => 'Preuzmite Android aplikaciju',
-        'welcome' => 'Biologer je jednostavan i slobodan softver osmišljen za prikupljanje podataka o biološkoj raznovrsnosti.',
+        'welcome' => 'Biologer Taxonomy je jednostavan i slobodan softver osmišljen za prikupljanje podataka o biološkoj raznovrsnosti.',
         'stats' => 'Zajednica „:community“ broji :userCount korisnika, koji su prikupili :observationCount nalaza.',
 
         'announcements' => [

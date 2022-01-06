@@ -29,7 +29,7 @@ abstract class BaseImportController
      *
      * @param  \App\Import  $import
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return bool
      */
     protected function canSeeDetails(Import $import, Request $request)
     {
@@ -54,12 +54,13 @@ abstract class BaseImportController
                     'required',
                     'array',
                     Rule::in($importer::availableColumns($request->user())),
-                    Rule::contain($importer::requiredColumns($request->user())),
+                    // TODO: repair this !!!
+                    // Rule::contain($importer::requiredColumns($request->user())),
                 ],
                 'file' => [
                     'bail',
                     'required',
-                    'mimes:csv,txt',
+                    'mimes:xlsx,csv,txt',
                     'max:'.config('biologer.max_upload_size'),
                     new ImportFile($request->input('has_heading', false)),
                     new NoImportsInProgress(),
@@ -67,9 +68,11 @@ abstract class BaseImportController
                 'has_heading' => ['nullable', 'boolean'],
                 'user_id' => ['nullable', Rule::exists('users', 'id')],
                 'options' => ['nullable', 'array'],
+
             ], $importer::specificValidationRules()),
-            [],
-            $importer::validationAttributes()
+
+            $importer::validationAttributes(),
+
         );
 
         return $importer::fromRequest($request);
@@ -94,7 +97,7 @@ abstract class BaseImportController
      *
      * @param  \App\Import  $import
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return bool
      */
     protected function canSeeErrors(Import $import, Request $request)
     {

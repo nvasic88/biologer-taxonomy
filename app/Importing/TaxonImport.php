@@ -2,7 +2,6 @@
 
 namespace App\Importing;
 
-use App\DEM\Reader as DEMReader;
 use App\Support\Localization;
 use App\Synonym;
 use App\Taxon;
@@ -14,36 +13,16 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class TaxonImport extends BaseImport
 {
-    /**
-     * @var \App\DEM\Reader
-     */
-    protected $demReader;
 
     /**
      * Create new importer instance.
      *
      * @param  \App\Import  $import
-     * @param  \App\DEM\Reader  $demReader
      * @return void
      */
-    public function __construct($import, DEMReader $demReader)
+    public function __construct($import)
     {
         parent::__construct($import);
-
-        $this->setDEMReader($demReader);
-    }
-
-    /**
-     * Set DEM reader instance to get missing elevation.
-     *
-     * @param  \App\DEM\Reader  $demReader
-     * @return self
-     */
-    public function setDEMReader(DEMReader $demReader)
-    {
-        $this->demReader = $demReader;
-
-        return $this;
     }
 
     /**
@@ -54,17 +33,69 @@ class TaxonImport extends BaseImport
      */
     public static function columns($user = null)
     {
-        $locales = collect(LaravelLocalization::getSupportedLocales())->reverse();
-        return collect([
+        $locales = collect(LaravelLocalization::getSupportedLocales());
+
+        return collect(array_keys(Taxon::RANKS))->map(function ($rank) {
+            return [
+                'label' => trans("taxonomy.{$rank}"),
+                'value' => $rank,
+                'required' => false,
+            ];
+        })->concat([
             [
                 'label' => trans('labels.id'),
                 'value' => 'id',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.taxa.name'),
-                'value' => 'name',
-                'required' => true,
+                'label' => trans('labels.taxa.author'),
+                'value' => 'author',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.restricted'),
+                'value' => 'restricted',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.allochthonous'),
+                'value' => 'allochthonous',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.invasive'),
+                'value' => 'invasive',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.fe_old_id'),
+                'value' => 'fe_old_id',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.fe_id'),
+                'value' => 'fe_id',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.stages'),
+                'value' => 'stages',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.conservation_legislations'),
+                'value' => 'conservation_legislations',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.red_lists'),
+                'value' => 'red_lists',
+                'required' => false,
+            ],
+            [
+                'label' => trans('labels.taxa.uses_atlas_codes'),
+                'value' => 'uses_atlas_codes',
+                'required' => false,
             ],
             [
                 'label' => trans('labels.taxa.synonyms'),
@@ -80,17 +111,16 @@ class TaxonImport extends BaseImport
                 'value' => 'native_name_'.Str::snake($localeCode),
                 'required' => false,
             ];
-        }))->concat([
-            [
-                'label' => trans('labels.taxa.author'),
-                'value' => 'author',
+        }))->concat($locales->map(function ($locale, $localeCode) {
+            $description = trans('labels.taxa.description');
+            $localeTranslation = trans('languages.'.$locale['name']);
+
+            return [
+                'label' => "{$description} - {$localeTranslation}",
+                'value' => 'description_'.Str::snake($localeCode),
                 'required' => false,
-            ],
-        ])->pipe(function ($columns) use ($user) {
-            if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {
-                return $columns;
-            }
-        });
+            ];
+        }));
     }
 
     public function generateErrorsRoute()
@@ -101,15 +131,15 @@ class TaxonImport extends BaseImport
     /**
      * Make validator instance.
      *
-     * @param  array  $data
-
+     * @param array $data
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function makeValidator(array $data)
     {
         $locales = collect(LaravelLocalization::getSupportedLocales())->reverse();
+        $ranks = collect(array_keys(Taxon::RANKS));
+
         return Validator::make($data, [
-            'name' => ['required', 'string'],
-            'synonyms' => ['nullable', 'string'],
             $locales->map(function ($locale) {
                 $nativeName = trans('labels.taxa.native_name');
                 $localeTranslation = trans('languages.' . $locale['name']);
@@ -117,10 +147,40 @@ class TaxonImport extends BaseImport
                     "{$nativeName} - {$localeTranslation}" => ['nullable', 'string'],
                 ];
             }),
+            $ranks->map(function ($rank) {
+                $label = trans("taxonomy.($rank}");
+                return [
+                    "{$label}" => ['nullable', 'string'],
+                ];
+            }),
+            'id' => ['nullable', 'integer', 'min:1'],
             'author' => ['nullable', 'string'],
+            'restricted' => ['nullable', 'string', Rule::in($this->yesNo())],
+            'allochthonous' => ['nullable', 'string', Rule::in($this->yesNo())],
+            'invasive' => ['nullable', 'string', Rule::in($this->yesNo())],
+            'fe_old_id' => ['nullable', 'integer'],
+            'fe_id' => ['nullable', 'string'],
+            //'stages' => trans('labels.taxa.stages'),
+            'uses_atlas_codes' => ['nullable', 'string', Rule::in($this->yesNo())],
+            'synonyms' => ['nullable', 'string'],
         ], [
-            'synonyms' => trans('labels.taxa.synonyms'),
+            $ranks->map(function ($rank) {
+                return [
+                    "{$rank}" => trans("taxonomy.($rank}")
+                ];
+            }),
+            'id' => trans('labels.id'),
             'author' => trans('labels.taxa.author'),
+            'restricted' => trans('labels.taxa.restricted'),
+            'allochthonous' => trans('labels.taxa.allochthonous'),
+            'invasive' => trans('labels.taxa.invasive'),
+            'fe_old_id' => trans('labels.taxa.fe_old_id'),
+            'fe_id' => trans('labels.taxa.fe_id'),
+            'stages' => trans('labels.taxa.stages'),
+            'conservation_legislations' => trans('labels.taxa.conservation_legislations'),
+            'red_lists' => trans('labels.taxa.red_lists'),
+            'uses_atlas_codes' => trans('labels.taxa.uses_atlas_codes'),
+            'synonyms' => trans('labels.taxa.synonyms'),
         ]);
     }
 

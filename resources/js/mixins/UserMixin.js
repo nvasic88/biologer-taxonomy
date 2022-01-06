@@ -9,7 +9,7 @@ export default {
 
   computed: {
     isCuratorOrAdmin() {
-        return this.currentUser.hasRole(['admin', 'curator'])
+        return this.currentUser.hasRole(['admin', 'expert'])
     }
   }
 }

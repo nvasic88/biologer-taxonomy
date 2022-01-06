@@ -59,8 +59,10 @@ Vue.component('NzAnnouncementForm', () => import('./components/forms/Announcemen
 //Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))
 Vue.component('NzTaxonActivityLog', () => import('./components/activity/TaxonActivityLog'))
 
+
 //Vue.component('NzFieldObservationsImport', () => import('./components/imports/FieldObservationsImport'))
 //Vue.component('NzLiteratureObservationsImport', () => import('./components/imports/LiteratureObservationsImport'))
+Vue.component('NzTaxaImport', () => import('./components/imports/TaxonImport'))
 
 //Vue.component('NzFieldObservationApproval', () => import('./components/FieldObservationApproval'))
 
