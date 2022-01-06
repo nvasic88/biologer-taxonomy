@@ -78,7 +78,7 @@ class UsersController
 
         if (request()->has('curated_taxa_ids')) {
             $user->curatedTaxa()->sync(
-                $user->hasRole('curator') ? request('curated_taxa_ids', []) : []
+                $user->hasRole('expert') ? request('curated_taxa_ids', []) : []
             );
         }
 

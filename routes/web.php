@@ -43,9 +43,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('taxa/{taxon}', [TaxaController::class, 'show'])->name('taxa.show');
-    Route::get('groups', [GroupsController::class, 'index'])->name('groups.index');
-    Route::get('groups/{group}/species/{species}', [GroupSpeciesController::class, 'show'])->name('groups.species.show');
-    Route::get('groups/{group}/species', [GroupSpeciesController::class, 'index'])->name('groups.species.index');
+    //Route::get('groups', [GroupsController::class, 'index'])->name('groups.index');
+    //Route::get('groups/{group}/species/{species}', [GroupSpeciesController::class, 'show'])->name('groups.species.show');
+    //Route::get('groups/{group}/species', [GroupSpeciesController::class, 'index'])->name('groups.species.index');
 
     // About pages
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
