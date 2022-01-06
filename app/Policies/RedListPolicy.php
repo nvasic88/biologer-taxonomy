@@ -19,7 +19,7 @@ class RedListPolicy
      */
     public function view(User $user, RedList $redList)
     {
-        return $user->hasAnyRole(['admin', 'curator']);
+        return $user->hasAnyRole(['admin', 'expert']);
     }
 
     /**
@@ -30,7 +30,7 @@ class RedListPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAnyRole(['admin', 'curator']);
+        return $user->hasAnyRole(['admin', 'expert']);
     }
 
     /**
@@ -42,7 +42,7 @@ class RedListPolicy
      */
     public function update(User $user, RedList $redList)
     {
-        return $user->hasAnyRole(['admin', 'curator']);
+        return $user->hasAnyRole(['admin', 'expert']);
     }
 
     /**
@@ -54,6 +54,6 @@ class RedListPolicy
      */
     public function delete(User $user, RedList $redList)
     {
-        return $user->hasAnyRole(['admin', 'curator']);
+        return $user->hasAnyRole(['admin', 'expert']);
     }
 }

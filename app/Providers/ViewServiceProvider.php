@@ -51,7 +51,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
                 )->addIf(
-                    optional(auth()->user())->hasAnyRole(['admin', 'curator']),
+                    optional(auth()->user())->hasAnyRole(['admin', 'expert']),
                     Menu::new()
                         ->prepend('<p class="menu-label">'.trans('navigation.curator').'</p>')
                         ->addClass('menu-list')
@@ -60,7 +60,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
                 )->addIf(
-                    optional(auth()->user())->hasAnyRole(['admin', 'curator']),
+                    optional(auth()->user())->hasAnyRole(['admin', 'expert']),
                     Menu::new()
                         ->prepend('<p class="menu-label">'.trans('navigation.admin').'</p>')
                         ->addClass('menu-list')

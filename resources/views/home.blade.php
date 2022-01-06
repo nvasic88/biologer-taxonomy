@@ -11,11 +11,12 @@
         <p class="is-size-4 mb-8">
             {{ __('pages.home.welcome') }}
             {{ __('pages.home.stats', compact('community', 'userCount', 'observationCount')) }}
+
         </p>
 
         <div class="columns">
             <div class="column is-full-mobile is-one-third is-offset-2">
-                <a href="{{ route('groups.index') }}" class="button is-primary is-outlined is-fullwidth"><b>{{ __('pages.home.browse') }}</b></a>
+                <a href="#" class="button is-primary is-outlined is-fullwidth"><b>{{ __('pages.home.browse') }}</b></a>
             </div>
 
             <div class="column is-full-mobile is-one-third">

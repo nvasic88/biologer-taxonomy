@@ -38,7 +38,7 @@ trait HasRoles
     public function scopeCurators($query)
     {
         return $query->whereHas('roles', function ($query) {
-            return $query->where('name', 'curator');
+            return $query->where('name', 'expert');
         });
     }
 

@@ -94,7 +94,7 @@ class NotificationsPreferencesController
             'field_observation_marked_unidentifiable.mail',
         ];
 
-        if ($request->user()->hasRole('curator')) {
+        if ($request->user()->hasRole('expert')) {
             $attributes[] = 'field_observation_for_approval.database';
             $attributes[] = 'field_observation_for_approval.mail';
         }

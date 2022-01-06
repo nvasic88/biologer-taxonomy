@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use App\Taxon;
 
 class TaxaController
@@ -29,4 +30,5 @@ class TaxaController
             'descendants' => $taxon->isGenusOrLower() ? $taxon->lowerRankDescendants() : collect(),
         ]);
     }
+
 }

@@ -8,8 +8,6 @@ use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Contributor\DashboardController;
 use App\Http\Controllers\ExportDownloadController;
-use App\Http\Controllers\GroupsController;
-use App\Http\Controllers\GroupSpeciesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Preferences\AccountPreferencesController;
 use App\Http\Controllers\Preferences\GeneralPreferencesController;
@@ -97,15 +95,19 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('taxa', [AdminTaxaController::class, 'index'])
-                ->middleware('role:admin,curator')
+                ->middleware('role:admin,expert')
                 ->name('taxa.index');
+
+            Route::get('country', [\App\Http\Controllers\Api\CountriesController::class, 'index'])
+                ->middleware('role:admin,expert')
+                ->name('country.index');
 
             Route::get('taxa/{taxon}/edit', [AdminTaxaController::class, 'edit'])
                 ->middleware('can:update,taxon')
                 ->name('taxa.edit');
 
             Route::get('taxa/new', [AdminTaxaController::class, 'create'])
-                ->middleware('role:admin,curator')
+                ->middleware('role:admin,expert')
                 ->name('taxa.create');
 
             Route::get('users', [UsersController::class, 'index'])
