@@ -387,7 +387,7 @@ abstract class BaseImport
     /**
      * Store import in DB.
      *
-     * @return void
+     * @return Import
      */
     public function store()
     {
@@ -413,6 +413,7 @@ abstract class BaseImport
      *
      * @return void
      */
+    // TODO: Should be able to skip current item if exists and carry on..
     private function storeParsed()
     {
         DB::beginTransaction();
@@ -437,8 +438,8 @@ abstract class BaseImport
     /**
      * Store data from single CSV row.
      *
-     * @param  array  $item
+     * @param  array  $taxon
      * @return void
      */
-    abstract protected function storeSingleItem(array $item);
+    abstract protected function storeSingleItem(array $taxon);
 }

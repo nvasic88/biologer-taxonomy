@@ -36,14 +36,6 @@
 
               <span>{{ trans('buttons.export') }}</span>
             </b-dropdown-item>
-
-            <b-dropdown-item
-              @click="openImportModal"
-            >
-              <b-icon icon="upload" class="has-text-grey" />
-
-              <span>{{ trans('buttons.import') }}</span>
-            </b-dropdown-item>
           </b-dropdown>
         </div>
       </div>

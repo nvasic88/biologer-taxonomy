@@ -44,9 +44,9 @@
 
           <div class="level-item">
             <b-field class="file" v-if="!importing">
-              <b-upload v-model="file" accept=".xlsx">
+              <b-upload v-model="file" accept=".csv, .xlsx">
                 <a class="button">
-                  <span>{{ trans('labels.imports.select_csv_file') }}</span>
+                  <span>{{ trans('labels.imports.select_import_file') }}</span>
                 </a>
               </b-upload>
 

@@ -14,6 +14,22 @@ class ConservationLegislationSeeder extends Seeder
      */
     public function run()
     {
+        ConservationLegislation::firstOrCreate(['slug' => 'serbia-2'])->update([
+            'bs' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'en' => ['name' => 'Serbia 2', 'description' => 'Code of regulations on declaration and protection of strictly protected and protected wild species of plants, animals and fungi'],
+            'hr' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'sr' => ['name' => 'Заштићена (РС)', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и гљива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
+            'sr-Latn' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+        ]);
+
+        ConservationLegislation::firstOrCreate(['slug' => 'serbia-1'])->update([
+            'bs' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'en' => ['name' => 'Serbia 1', 'description' => 'Code of regulations on declaration and protection of strictly protected and protected wild species of plants, animals and fungi'],
+            'hr' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'sr' => ['name' => 'Строго заштићена (РС)', 'description' => 'Прилог 1 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и гљива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
+            'sr-Latn' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gljiva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+        ]);
+
         ConservationLegislation::firstOrCreate(['slug' => 'habitat-2'])->update([
             'bs' => ['name' => 'DS, Aneks 2', 'description' => 'Direktiva o staništima, Aneks 2'],
             'en' => ['name' => 'Habitat, Annex 2', 'description' => 'Habitat Directive, Annex 2'],
