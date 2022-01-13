@@ -16,7 +16,7 @@ class CountrySeeder extends Seeder
     {
         Country::firstOrCreate([
             'name' => 'Serbia',
-            'code' => 'sr',
+            'code' => 'rs',
             'url' => 'https://biologer.rs'
         ]);
 

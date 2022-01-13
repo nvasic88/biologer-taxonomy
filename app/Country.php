@@ -42,4 +42,18 @@ class Country extends Model
             'url' => $this->url
         ];
     }
+
+    /**
+     * Taxa that is listed.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function taxa()
+    {
+        return $this->belongsToMany(Taxon::class);
+    }
+
+    public static function findByCode($code){
+        return static::where('code', $code)->first();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Country;
 use App\Http\Requests\StoreTaxon;
 use App\Http\Requests\UpdateTaxon;
 use App\Http\Resources\TaxonCollectionResource;
@@ -50,8 +51,42 @@ class TaxaController
     public function show(Taxon $taxon)
     {
         return new TaxonResource($taxon->load([
-            'conservationLegislations', 'redLists', 'conservationDocuments',
+            'conservationLegislations', 'redLists', 'conservationDocuments', 'synonyms', 'countries'
         ]));
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \App\Http\Resources\TaxonResource | null
+     */
+    public function search(Request $request){
+        // process
+        $taxon = Taxon::findByRankAndName($request->input('name'), $request->input('rank'));
+        $country = Country::findByCode($request->input('country'));
+
+        if ($taxon == null or $country == null) return null;
+
+        // should add country to pivot for this taxon and requested country
+        $taxon->countries()->sync($country->id, false);
+
+        return new TaxonResource(
+                $taxon->load([
+                'conservationLegislations', 'redLists', 'conservationDocuments', 'synonyms', 'countries'
+            ])
+        );
+    }
+
+    /**
+     * @param int $taxon_id
+     * @return \App\Http\Resources\TaxonResource | null
+     */
+    public function sync(int $taxon_id){
+        $taxon = Taxon::where('id', $taxon_id)->first();
+        if ($taxon)
+            return new TaxonResource($taxon->load([
+                'conservationLegislations', 'redLists', 'conservationDocuments', 'synonyms', 'countries'
+            ]));
+        else return null;
     }
 
     /**

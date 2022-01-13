@@ -181,6 +181,18 @@ class Taxon extends Model
 
 
     /**
+     * Find taxon by rank and name.
+     *
+     * @param  string  $name
+     * @return \App\Taxon
+     */
+    public static function findByRankAndName($name, $rank)
+    {
+        return static::where(['name' => $name, 'rank' => $rank])->first();
+    }
+
+
+    /**
      * Approved observations.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -606,7 +618,7 @@ class Taxon extends Model
     /**
      * Taxon ranks as options for frontend.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public static function getRankOptions()
     {

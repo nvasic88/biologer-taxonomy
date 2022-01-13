@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
 use App\Http\Controllers\Api\Autocomplete\UsersController as AutocompleteUsersController;
 use App\Http\Controllers\Api\CancelledImportsController;
+use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\ExportsController;
 use App\Http\Controllers\Api\GroupTaxaController;
 use App\Http\Controllers\Api\My\ProfileController;
@@ -38,6 +39,12 @@ Route::get('groups/{group}/taxa', [GroupTaxaController::class, 'index'])
 Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'index'])
     ->name('api.taxa.public-photos.index');
 
+Route::post('taxa/search', [TaxaController::class, 'search'])
+    ->name('api.taxa.search');
+
+Route::post('taxa/{id}', [TaxaController::class, 'sync'])
+    ->name('api.taxa.sync');
+
 Route::middleware(['auth:api', 'verified'])->group(function () {
     // Taxa
     Route::get('taxa', [TaxaController::class, 'index'])
@@ -51,6 +58,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->withoutMiddleware('verified')
         ->name('api.taxa.show');
 
+
+
     Route::put('taxa/{taxon}', [TaxaController::class, 'update'])
         ->middleware('can:update,taxon')
         ->name('api.taxa.update');
@@ -58,6 +67,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::delete('taxa/{taxon}', [TaxaController::class, 'destroy'])
         ->middleware('can:delete,taxon')
         ->name('api.taxa.destroy');
+
+    Route::get('country', [CountriesController::class, 'index'])
+        ->withoutMiddleware('verified')
+        ->name('api.country.index');
 
     Route::post('cancelled-imports', [CancelledImportsController::class, 'store'])
         ->name('api.cancelled-imports.store');
