@@ -34,9 +34,9 @@ class Synonym extends Model
     {
         return [
             'id' => $this->id,
-            'taxon' => $this->taxon,
+            'name' => $this->name,
             'taxon_id' => $this->taxon_id,
-            'name' => $this->name
+            'taxon_name' => $this->taxon->name,
         ];
     }
 
@@ -50,9 +50,9 @@ class Synonym extends Model
     {
         return [
             'id' => $this->id,
-            'taxon' => $this->taxon,
+            'name' => $this->name,
             'taxon_id' => $this->taxon_id,
-            'name' => $this->name
+            'taxon_name' => $this->taxon->name,
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="box content">
-        <h1>Taxons import guide</h1>
+        <h1>Упутство за увоз таксона</h1>
 
-        <span>Work in progress</span>
+        <span>У изради</span>
     </div>
 @endsection
 
@@ -14,7 +14,7 @@
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
             <li><a href="{{ route('admin.taxa.index') }}">{{ __('navigation.taxa') }}</a></li>
             <li><a href="{{ route('admin.taxa-import.index') }}">{{ __('navigation.taxa_import') }}</a></li>
-            <li class="is-active"><a>Uputstvo za uvoz</a></li>
+            <li class="is-active"><a>Упутство за увоз</a></li>
         </ul>
     </div>
 @endsection

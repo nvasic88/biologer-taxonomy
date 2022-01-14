@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="box content">
-        <h1>Taxons import guide</h1>
+        <h1>Uputstvo za uvoz taksona</h1>
 
-        <span>Work in progress</span>
+        <span>U izradi</span>
     </div>
 @endsection
 
