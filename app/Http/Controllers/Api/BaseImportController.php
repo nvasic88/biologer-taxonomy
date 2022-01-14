@@ -54,8 +54,7 @@ abstract class BaseImportController
                     'required',
                     'array',
                     Rule::in($importer::availableColumns($request->user())),
-                    // TODO: repair this !!!
-                    // Rule::contain($importer::requiredColumns($request->user())),
+                    Rule::contain($importer::requiredColumns($request->user())),
                 ],
                 'file' => [
                     'bail',

@@ -97,10 +97,12 @@ class TaxonImport extends BaseImport
                 'required' => false,
             ];
         })->concat([
+            # TODO: Some column must be required, that is rank and name,
+            #   but we have special fields for that, so ID should work for now
             [
                 'label' => trans('labels.id'),
                 'value' => 'id',
-                'required' => false,
+                'required' => true,
             ],
             [
                 'label' => trans('labels.taxa.author'),
@@ -462,7 +464,7 @@ class TaxonImport extends BaseImport
             // Connect the taxon with it's parent to establish ancestry.
             $current->parent_id = $last ? $last->id : null;
             $doesntExist = ! $current->exists;
-            # dd($current);
+
             if ($current->isDirty() || $doesntExist) {
                 $current->save();
                 //$this->info('Stored taxon: '.$current->name);
