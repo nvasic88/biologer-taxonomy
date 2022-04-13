@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
 use App\Http\Controllers\Api\Autocomplete\UsersController as AutocompleteUsersController;
 use App\Http\Controllers\Api\CancelledImportsController;
-use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\ExportsController;
 use App\Http\Controllers\Api\GroupTaxaController;
 use App\Http\Controllers\Api\My\ProfileController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\Api\SynonymsController;
 use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
 use App\Http\Controllers\Api\TaxonImportsController;
+use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
 use App\Http\Controllers\Api\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -39,11 +39,17 @@ Route::get('groups/{group}/taxa', [GroupTaxaController::class, 'index'])
 Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'index'])
     ->name('api.taxa.public-photos.index');
 
-Route::post('taxa/search', [TaxaController::class, 'search'])
-    ->name('api.taxa.search');
+Route::post('taxonomy/check', [TaxonomyController::class, 'check'])
+    ->name('api.taxonomy.check');
 
-Route::post('taxa/{id}', [TaxaController::class, 'sync'])
-    ->name('api.taxa.sync');
+Route::post('taxonomy/connect', [TaxonomyController::class, 'connect'])
+    ->name('api.taxonomy.connect');
+
+Route::post('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
+    ->name('api.taxonomy.disconnect');
+
+Route::post('taxonomy/search', [TaxonomyController::class, 'search'])
+    ->name('api.taxonomy.search');
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     // Taxa
@@ -58,8 +64,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->withoutMiddleware('verified')
         ->name('api.taxa.show');
 
-
-
     Route::put('taxa/{taxon}', [TaxaController::class, 'update'])
         ->middleware('can:update,taxon')
         ->name('api.taxa.update');
@@ -67,10 +71,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::delete('taxa/{taxon}', [TaxaController::class, 'destroy'])
         ->middleware('can:delete,taxon')
         ->name('api.taxa.destroy');
-
-    Route::get('country', [CountriesController::class, 'index'])
-        ->withoutMiddleware('verified')
-        ->name('api.country.index');
 
     Route::post('cancelled-imports', [CancelledImportsController::class, 'store'])
         ->name('api.cancelled-imports.store');

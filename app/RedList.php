@@ -23,6 +23,10 @@ class RedList extends Model
      */
     protected $with = ['translations'];
 
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -40,6 +44,19 @@ class RedList extends Model
     public function taxa()
     {
         return $this->belongsToMany(Taxon::class)->withPivot('category');
+    }
+
+    /**
+     * Countries for reference local id's
+     */
+    public function countries()
+    {
+        return $this->belongsToMany(
+            Country::class,
+            'country_red_list',
+            'red_list_id',
+            'country_id')
+            ->withPivot('ref_id');
     }
 
     /**

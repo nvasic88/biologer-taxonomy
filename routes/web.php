@@ -99,10 +99,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('role:admin,expert')
                 ->name('taxa.index');
 
-            Route::get('country', [\App\Http\Controllers\Api\CountriesController::class, 'index'])
-                ->middleware('role:admin,expert')
-                ->name('country.index');
-
             Route::get('taxa/{taxon}/edit', [AdminTaxaController::class, 'edit'])
                 ->middleware('can:update,taxon')
                 ->name('taxa.edit');

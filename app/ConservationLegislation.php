@@ -12,6 +12,10 @@ class ConservationLegislation extends Model
 
     protected $translationForeignKey = 'leg_id';
 
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
+
     /**
      * The relations to eager load on every query.
      *
@@ -38,6 +42,19 @@ class ConservationLegislation extends Model
         return $this->belongsToMany(Taxon::class);
     }
 
+    /**
+     * Countries for reference local id's
+     */
+    public function countries()
+    {
+        return $this->belongsToMany(
+            Country::class,
+            'country_conservation_legislation',
+            'leg_id',
+            'country_id')
+            ->withPivot('ref_id');
+    }
+
     public function getNameAttribute()
     {
         return $this->translateOrNew($this->locale())->name;
@@ -46,5 +63,10 @@ class ConservationLegislation extends Model
     public function getDescriptionAttribute()
     {
         return $this->translateOrNew($this->locale())->description;
+    }
+
+    public function loadReferenceId(Country $country){
+        dd($this->countries()->where(['id' => 4])->first());
+        # return $this->countries()->('country_id', $country->id)->get();
     }
 }

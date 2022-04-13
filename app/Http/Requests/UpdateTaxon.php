@@ -15,6 +15,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 
 class UpdateTaxon extends FormRequest
@@ -110,6 +111,8 @@ class UpdateTaxon extends FormRequest
 
             $this->logUpdatedActivity($taxon, $oldData);
 
+            $this->sendUpdatesToLocalDatabases($taxon);
+
             return $taxon;
         });
     }
@@ -120,7 +123,7 @@ class UpdateTaxon extends FormRequest
      * @param  array  $redListsData
      * @return array
      */
-    protected function mapRedListsData($redListsData = [])
+    protected function mapRedListsData(array $redListsData = [])
     {
         return collect($redListsData)->mapWithKeys(function ($item) {
             return [$item['red_list_id'] => ['category' => $item['category']]];
@@ -254,7 +257,7 @@ class UpdateTaxon extends FormRequest
     protected function createSynonyms(Taxon $taxon)
     {
         $synonym_names = $this->input('synonym_names');
-        foreach ($synonym_names as $k => $v){
+        foreach ($synonym_names as $k => $v) {
             $synonym = Synonym::firstOrCreate([
                 'name' => $v,
                 'taxon_id' => $taxon->id,
@@ -270,5 +273,31 @@ class UpdateTaxon extends FormRequest
         return $oldValue->count() !== $taxon->countries->count()
             || ($oldValue->isNotEmpty() && $taxon->countries->isNotEmpty()
                 && $oldValue->pluck('id')->diff($taxon->countries->pluck('id'))->isNotEmpty());
+    }
+
+    protected function sendUpdatesToLocalDatabases(Taxon $taxon)
+    {
+        $data['taxon'] = $taxon->toArray();
+        $data['taxon']['reason'] = $this->input('reason');
+
+        foreach ($taxon->countries()->get() as $country) {
+            if ($country->active == false) {
+                continue;
+            }
+
+            foreach ($country->redLists()->get()->toArray() as $item) {
+                $data['country_ref']['redLists'][$item['pivot']['red_list_id']] = $item['pivot']['ref_id'];
+            }
+            foreach ($country->conservationLegislations()->get()->toArray() as $item) {
+                $data['country_ref']['legs'][$item['pivot']['leg_id']] = $item['pivot']['ref_id'];
+            }
+            foreach ($country->conservationDocuments()->get()->toArray() as $item) {
+                $data['country_ref']['docs'][$item['pivot']['doc_id']] = $item['pivot']['ref_id'];
+            }
+
+            $data['key'] = config('biologer.taxonomy_key_'.$country->code);
+
+            http::post($country->url.'/api/taxa/sync', $data);
+        }
     }
 }

@@ -52,4 +52,8 @@ return [
     'backup_full' => (bool) env('BACKUP_FULL', false),
 
     'photos_disk' => env('PHOTOS_DISK', 'public'),
+
+    'taxonomy_key_rs' => env('SECRET_KEY_RS', ''),
+    'taxonomy_key_hr' => env('SECRET_KEY_HR', ''),
+    'taxonomy_key_ba' => env('SECRET_KEY_BA', ''),
 ];

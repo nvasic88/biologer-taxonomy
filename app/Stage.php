@@ -9,6 +9,10 @@ class Stage extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
+
     public function getNameTranslationAttribute()
     {
         return trans('stages.'.$this->name);

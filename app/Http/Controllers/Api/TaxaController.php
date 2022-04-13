@@ -66,7 +66,6 @@ class TaxaController
 
         if ($taxon == null or $country == null) return null;
 
-        // should add country to pivot for this taxon and requested country
         $taxon->countries()->sync($country->id, false);
 
         return new TaxonResource(
