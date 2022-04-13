@@ -6,10 +6,10 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class ImageLicense implements Arrayable
 {
-    const CC_BY_SA = 10;
-    const CC_BY_NC_SA = 20;
-    const PARTIALLY_OPEN = 30;
-    const CLOSED = 40;
+    public const CC_BY_SA = 10;
+    public const CC_BY_NC_SA = 20;
+    public const PARTIALLY_OPEN = 30;
+    public const CLOSED = 40;
 
     /**
      * @var int

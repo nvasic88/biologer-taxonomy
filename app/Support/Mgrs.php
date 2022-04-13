@@ -10,12 +10,12 @@ use PHPCoord\UTMPoint;
 
 class Mgrs
 {
-    const BLOCK_SIZE = 100000;
-    const NORTHING_OFFSET = 10000000.0;
-    const GRIDSQUARE_SET_COL_SIZE = 8;
-    const GRIDSQUARE_SET_ROW_SIZE = 20;
-    const METERS_IN_10K = 10000;
-    const CENTER_PRECISION = 5000;
+    public const BLOCK_SIZE = 100000;
+    public const NORTHING_OFFSET = 10000000.0;
+    public const GRIDSQUARE_SET_COL_SIZE = 8;
+    public const GRIDSQUARE_SET_ROW_SIZE = 20;
+    public const METERS_IN_10K = 10000;
+    public const CENTER_PRECISION = 5000;
 
     /**
      * Letters' groups for 100k easting.
@@ -95,7 +95,7 @@ class Mgrs
 
             return new static($utmPoint);
         } catch (\Exception $e) {
-            return new NullMgrs;
+            return new NullMgrs();
         }
     }
 

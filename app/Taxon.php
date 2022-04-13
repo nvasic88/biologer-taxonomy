@@ -11,17 +11,18 @@ use Spatie\Activitylog\Models\Activity;
 
 class Taxon extends Model
 {
-    use HasFactory,Concerns\CanBeCurated,
-        Concerns\CanMemoize,
-        Concerns\HasAncestry,
-        Concerns\HasTranslatableAttributes,
-        Filterable,
-        Translatable;
+    use HasFactory;
+    use Concerns\CanBeCurated;
+    use Concerns\CanMemoize;
+    use Concerns\HasAncestry;
+    use Concerns\HasTranslatableAttributes;
+    use Filterable;
+    use Translatable;
 
     /**
      * @var array
      */
-    const RANKS = [
+    public const RANKS = [
         // 'root' => 100,
         'kingdom' => 70,
         'subkingdom' => 67,
@@ -482,7 +483,7 @@ class Taxon extends Model
             $result = Observation::approved()
                 ->ofTaxa($this->selfAndDescendantsIds())
                 ->where(function ($query) {
-                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                    $query->where('details_type', '!=', (new FieldObservation())->getMorphClass())
                         ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
                             $query->public();
                         });
@@ -518,7 +519,7 @@ class Taxon extends Model
                 ->ofTaxa($this->selfAndDescendantsIds())
                 ->where(function ($query) {
                     // Exclude those that are found dead
-                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                    $query->where('details_type', '!=', (new FieldObservation())->getMorphClass())
                         ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
                             $query->where('found_dead', false)->public();
                         });

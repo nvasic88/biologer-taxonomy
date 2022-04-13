@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RedList extends Model
 {
-    use HasFactory, Translatable;
+    use HasFactory;
+    use Translatable;
 
     /**
      * Red List categories.
      *
      * @var array
      */
-    const CATEGORIES = ['EX', 'EW', 'CR', 'CR (PE)', 'CR (PEW)', 'RE', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];
+    public const CATEGORIES = ['EX', 'EW', 'CR', 'CR (PE)', 'CR (PEW)', 'RE', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];
 
     /**
      * The relations to eager load on every query.
@@ -55,7 +56,8 @@ class RedList extends Model
             Country::class,
             'country_red_list',
             'red_list_id',
-            'country_id')
+            'country_id'
+        )
             ->withPivot('ref_id');
     }
 

@@ -10,7 +10,9 @@ use Illuminate\Queue\SerializesModels;
 
 class ImportStatusUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * @var \App\Import

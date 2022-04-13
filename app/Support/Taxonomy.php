@@ -6,7 +6,7 @@ class Taxonomy
 {
     public static function checkKey($key)
     {
-        if ($key == ''){
+        if ($key == '') {
             return '';
         }
 
@@ -17,7 +17,7 @@ class Taxonomy
             'test' => config('biologer.taxonomy_key_test'),
         ];
 
-        if (in_array($key, $keys)){
+        if (in_array($key, $keys)) {
             return array_search($key, $keys);
         }
 

@@ -8,7 +8,7 @@ class Ids
 {
     public function apply($query, $value, $param, $filterData, $modelClass)
     {
-        $table = (new $modelClass)->getTable();
+        $table = (new $modelClass())->getTable();
 
         return $query->whereIn("{$table}.id", Arr::wrap($value));
     }

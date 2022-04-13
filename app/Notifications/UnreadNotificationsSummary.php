@@ -43,7 +43,7 @@ class UnreadNotificationsSummary extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('notifications.email.summary_subject'))
             ->markdown('emails.unread-notifications-summary', [
                 'unreadNotifications' => $this->unreadNotifications->map->toUnreadSummaryMail($notifiable),

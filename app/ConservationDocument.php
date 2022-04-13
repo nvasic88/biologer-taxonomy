@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConservationDocument extends Model
 {
-    use HasFactory, Translatable;
+    use HasFactory;
+    use Translatable;
 
     protected $translationForeignKey = 'doc_id';
 
@@ -45,7 +46,8 @@ class ConservationDocument extends Model
             Country::class,
             'country_conservation_document',
             'doc_id',
-            'country_id')
+            'country_id'
+        )
             ->withPivot('ref_id');
     }
 

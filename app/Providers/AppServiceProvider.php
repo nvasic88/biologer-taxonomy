@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function setCustomTranslationMessageSelector()
     {
-        Lang::setSelector(new class extends MessageSelector {
+        Lang::setSelector(new class () extends MessageSelector {
             public function getPluralIndex($locale, $number)
             {
                 if ($locale === 'sr-Latn') {
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
     protected function customizeVerificationMail()
     {
         VerifyEmail::toMailUsing(function ($notifiable, $verificationUrl) {
-            return (new MailMessage)
+            return (new MailMessage())
                 ->subject(Lang::get('Verify Email Address'))
                 ->line(Lang::get('Please click the button below to verify your email address.'))
                 ->action(Lang::get('Verify Email Address'), $verificationUrl)

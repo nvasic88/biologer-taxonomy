@@ -23,7 +23,7 @@ class CreateImportsTable extends Migration
             $table->text('columns');
             $table->string('lang');
             $table->boolean('has_heading')->default(false);
-			$table->text('options')->nullable();
+            $table->text('options')->nullable();
             $table->timestamps();
         });
     }

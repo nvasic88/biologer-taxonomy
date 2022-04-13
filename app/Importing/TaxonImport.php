@@ -434,8 +434,8 @@ class TaxonImport extends BaseImport
      */
     private function extractOtherTaxonData($item)
     {
-
-        return array_merge([
+        return array_merge(
+            [
             'allochthonous' => $this->getBoolean($item, 'allochthonous'),
             'invasive' => $this->getBoolean($item, 'invasive'),
             'restricted' => $this->getBoolean($item, 'restricted'),
@@ -495,7 +495,6 @@ class TaxonImport extends BaseImport
      */
     private function saveRelations($taxon, $data)
     {
-
         $this->createSynonyms($data, $taxon);
 
         $taxon->conservationLegislations()->sync($this->getConservationLegislations($data), []);
@@ -534,9 +533,11 @@ class TaxonImport extends BaseImport
     private function createSynonyms(array $item, $taxon)
     {
         $synonym_names = Arr::get($item, 'synonyms');
-        if (!$synonym_names) return;
+        if (!$synonym_names) {
+            return;
+        }
 
-        foreach (explode('; ', $synonym_names) as $name){
+        foreach (explode('; ', $synonym_names) as $name) {
             $synonym = Synonym::firstOrCreate([
                 'name' => $name,
                 'taxon_id' => $taxon->id,
@@ -560,7 +561,9 @@ class TaxonImport extends BaseImport
         # TODO: This needs to be reworked!
         // trimming year after comma if exists
         $author = Arr::get($item, 'author');
-        if (!$author) return null;
+        if (!$author) {
+            return null;
+        }
         $author = explode(', ', $author);
         return $author[0];
     }
@@ -580,8 +583,10 @@ class TaxonImport extends BaseImport
     {
         $legislations = strtolower(Arr::get($data, 'conservation_legislations'));
         $legislation_ids = array();
-        if (!$legislations) return null;
-        foreach (explode('; ', $legislations) as $legislation){
+        if (!$legislations) {
+            return null;
+        }
+        foreach (explode('; ', $legislations) as $legislation) {
             $leg = $this->conservationLegislations->first(function ($leg) use ($legislation) {
                 return strtolower($leg->getNameAttribute()) == $legislation;
             });
@@ -594,8 +599,10 @@ class TaxonImport extends BaseImport
     {
         $documents = strtolower(Arr::get($data, 'conservation_documents'));
         $document_ids = array();
-        if (!$documents) return null;
-        foreach (explode('; ', $documents) as $document){
+        if (!$documents) {
+            return null;
+        }
+        foreach (explode('; ', $documents) as $document) {
             $doc = $this->conservationDocuments->first(function ($doc) use ($document) {
                 return strtolower($doc->getNameAttribute()) == $document;
             });
@@ -608,8 +615,10 @@ class TaxonImport extends BaseImport
     {
         $stages = strtolower(Arr::get($data, 'stages'));
         $stage_ids = array();
-        if (!$stages) return null;
-        foreach (explode('; ', $stages) as $translation){
+        if (!$stages) {
+            return null;
+        }
+        foreach (explode('; ', $stages) as $translation) {
             $stage = $this->stages->first(function ($stage) use ($translation) {
                 return strtolower($stage->name_translation) == $translation;
             });
@@ -622,7 +631,9 @@ class TaxonImport extends BaseImport
     {
         $red_lists = Arr::get($data, 'red_lists');
         $collection = collect();
-        if (!$red_lists) return null;
+        if (!$red_lists) {
+            return null;
+        }
         foreach (explode('; ', $red_lists) as $red_list) {
             # TODO: There must be an easier way...
             $x = explode(' [', $red_list);
@@ -632,8 +643,9 @@ class TaxonImport extends BaseImport
             $red_list = $this->redLists->first(function ($rl) use ($region) {
                 return strtolower($rl->getNameAttribute()) == $region;
             });
-            if ($red_list)
+            if ($red_list) {
                 $collection->push(['id' => $red_list->id, 'category' => $category]);
+            }
         }
         return $collection;
     }
@@ -642,7 +654,9 @@ class TaxonImport extends BaseImport
     {
         $countries = strtolower(Arr::get($data, 'countries'));
         $country_ids = array();
-        if (!$countries) return null;
+        if (!$countries) {
+            return null;
+        }
         foreach (explode('; ', $countries) as $country) {
             $country = $this->countries->first(function ($c) use ($country) {
                 return strtolower($c->name) == $country;
@@ -651,5 +665,4 @@ class TaxonImport extends BaseImport
         }
         return $country_ids;
     }
-
 }

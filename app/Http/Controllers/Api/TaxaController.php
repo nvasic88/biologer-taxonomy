@@ -59,17 +59,20 @@ class TaxaController
      * @param \Illuminate\Http\Request $request
      * @return \App\Http\Resources\TaxonResource | null
      */
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         // process
         $taxon = Taxon::findByRankAndName($request->input('name'), $request->input('rank'));
         $country = Country::findByCode($request->input('country'));
 
-        if ($taxon == null or $country == null) return null;
+        if ($taxon == null or $country == null) {
+            return null;
+        }
 
         $taxon->countries()->sync($country->id, false);
 
         return new TaxonResource(
-                $taxon->load([
+            $taxon->load([
                 'conservationLegislations', 'redLists', 'conservationDocuments', 'synonyms', 'countries'
             ])
         );
@@ -79,13 +82,16 @@ class TaxaController
      * @param int $taxon_id
      * @return \App\Http\Resources\TaxonResource | null
      */
-    public function sync(int $taxon_id){
+    public function sync(int $taxon_id)
+    {
         $taxon = Taxon::where('id', $taxon_id)->first();
-        if ($taxon)
+        if ($taxon) {
             return new TaxonResource($taxon->load([
                 'conservationLegislations', 'redLists', 'conservationDocuments', 'synonyms', 'countries'
             ]));
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     /**

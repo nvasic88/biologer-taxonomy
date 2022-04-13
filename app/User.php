@@ -16,7 +16,13 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    use HasApiTokens, HasFactory, CanMemoize, HasRoles, Notifiable, Filterable, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use CanMemoize;
+    use HasRoles;
+    use Notifiable;
+    use Filterable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -113,7 +119,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     public function observationsOfTypeField()
     {
-        return $this->observations()->where('details_type', (new FieldObservation)->getMorphClass());
+        return $this->observations()->where('details_type', (new FieldObservation())->getMorphClass());
     }
 
     /**

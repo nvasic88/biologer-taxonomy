@@ -69,9 +69,7 @@ abstract class BaseImportController
                 'options' => ['nullable', 'array'],
 
             ], $importer::specificValidationRules()),
-
             $importer::validationAttributes(),
-
         );
 
         return $importer::fromRequest($request);

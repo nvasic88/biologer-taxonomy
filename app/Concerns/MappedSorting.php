@@ -182,7 +182,7 @@ trait MappedSorting
      */
     protected function segmentForSortJoining(array $relationsNesting)
     {
-        $model = new static;
+        $model = new static();
 
         while (count($relationsNesting) > 1) {
             $relationName = array_shift($relationsNesting);

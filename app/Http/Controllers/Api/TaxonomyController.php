@@ -21,7 +21,7 @@ class TaxonomyController
     {
         $input = $request->all();
         $country_code = Taxonomy::checkKey($input['key']);
-        if ($country_code == ''){
+        if ($country_code == '') {
             return response('Failed to connect', 400);
         }
 
@@ -40,7 +40,7 @@ class TaxonomyController
     {
         $input = $request->all();
         $country_code = Taxonomy::checkKey($input['key']);
-        if ($country_code == ''){
+        if ($country_code == '') {
             return response('Unauthorized!', 401);
         }
 
@@ -67,7 +67,7 @@ class TaxonomyController
     {
         $input = $request->all();
         $country_code = Taxonomy::checkKey($input['key']);
-        if ($country_code == ''){
+        if ($country_code == '') {
             return response('Unauthorized!', 401);
         }
 
@@ -89,7 +89,7 @@ class TaxonomyController
     {
         $input = $request->all();
         $country_code = Taxonomy::checkKey($input['key']);
-        if ($country_code == ''){
+        if ($country_code == '') {
             return response('Unauthorized!', 401);
         }
 
@@ -116,13 +116,13 @@ class TaxonomyController
         }
 
         $country_ref = [];
-        foreach ($country->redLists()->get()->toArray() as $item){
+        foreach ($country->redLists()->get()->toArray() as $item) {
             $country_ref['redLists'][$item['pivot']['red_list_id']] = $item['pivot']['ref_id'];
         }
-        foreach ($country->conservationLegislations()->get()->toArray() as $item){
+        foreach ($country->conservationLegislations()->get()->toArray() as $item) {
             $country_ref['legs'][$item['pivot']['leg_id']] = $item['pivot']['ref_id'];
         }
-        foreach ($country->conservationDocuments()->get()->toArray() as $item){
+        foreach ($country->conservationDocuments()->get()->toArray() as $item) {
             $country_ref['docs'][$item['pivot']['doc_id']] = $item['pivot']['ref_id'];
         }
 
@@ -147,8 +147,8 @@ class TaxonomyController
 
             // Try by translation
             foreach ($redlist['translations'] as $trans) {
-                foreach($rls as $rl) {
-                    foreach ($rl->translations as $rl_trans){
+                foreach ($rls as $rl) {
+                    foreach ($rl->translations as $rl_trans) {
                         if ($rl_trans->name == $trans['name']) {
                             $syncIds[$rl->id] = ['ref_id' => $redlist['id']];
                             continue 3;
@@ -185,8 +185,8 @@ class TaxonomyController
 
             // Try by translation
             foreach ($doc['translations'] as $trans) {
-                foreach($cds as $rl) {
-                    foreach ($rl->translations as $rl_trans){
+                foreach ($cds as $rl) {
+                    foreach ($rl->translations as $rl_trans) {
                         if ($rl_trans->name == $trans['name']) {
                             $syncIds[$rl->id] = ['ref_id' => $doc['id']];
                             continue 3;
@@ -223,8 +223,8 @@ class TaxonomyController
 
             // Try by translation
             foreach ($leg['translations'] as $trans) {
-                foreach($clds as $rl) {
-                    foreach ($rl->translations as $rl_trans){
+                foreach ($clds as $rl) {
+                    foreach ($rl->translations as $rl_trans) {
                         if ($rl_trans->name == $trans['name']) {
                             $syncIds[$rl->id] = ['ref_id' => $leg['id']];
                             continue 3;
@@ -243,6 +243,5 @@ class TaxonomyController
             $syncIds[$res->id] = ['ref_id' => $leg['id']];
         }
         return $syncIds;
-
     }
 }

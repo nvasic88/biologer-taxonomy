@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Announcement extends Model
 {
-    use Concerns\HasTranslatableAttributes, HasFactory, Translatable;
+    use Concerns\HasTranslatableAttributes;
+    use HasFactory;
+    use Translatable;
 
     /**
      * The model's attributes.

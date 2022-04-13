@@ -4,16 +4,16 @@ namespace App\Importing;
 
 class ImportStatus extends \MyCLabs\Enum\Enum
 {
-    const PROCESSING_QUEUED = 'processing_queued';
-    const PARSING = 'parsing';
-    const PARSED = 'parsed';
-    const VALIDATING = 'validating';
-    const VALIDATION_FAILED = 'validation_failed';
-    const VALIDATION_PASSED = 'validation_passed';
-    const SAVING = 'saving';
-    const SAVING_FAILED = 'saving_failed';
-    const SAVED = 'saved';
-    const CANCELLED = 'cancelled';
+    public const PROCESSING_QUEUED = 'processing_queued';
+    public const PARSING = 'parsing';
+    public const PARSED = 'parsed';
+    public const VALIDATING = 'validating';
+    public const VALIDATION_FAILED = 'validation_failed';
+    public const VALIDATION_PASSED = 'validation_passed';
+    public const SAVING = 'saving';
+    public const SAVING_FAILED = 'saving_failed';
+    public const SAVED = 'saved';
+    public const CANCELLED = 'cancelled';
 
     /**
      * Check if import status is "parsed".

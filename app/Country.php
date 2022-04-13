@@ -37,7 +37,8 @@ class Country extends Model
             RedList::class,
             'country_red_list',
             'country_id',
-            'red_list_id')
+            'red_list_id'
+        )
             ->withPivot('ref_id');
     }
 
@@ -52,7 +53,8 @@ class Country extends Model
             ConservationLegislation::class,
             'country_conservation_legislation',
             'country_id',
-            'leg_id')
+            'leg_id'
+        )
             ->withPivot('ref_id');
     }
 
@@ -67,7 +69,8 @@ class Country extends Model
             ConservationDocument::class,
             'country_conservation_document',
             'country_id',
-            'doc_id')
+            'doc_id'
+        )
             ->withPivot('ref_id');
     }
 
@@ -76,21 +79,22 @@ class Country extends Model
      * @param $code
      * @return mixed
      */
-    public static function findByCode($code){
+    public static function findByCode($code)
+    {
         return static::where('code', $code)->first();
     }
 
 
-    public function setActive(){
+    public function setActive()
+    {
         $this->active = true;
         $this->save();
     }
 
 
-    public function setDeactive(){
+    public function setDeactive()
+    {
         $this->active = false;
         $this->save();
     }
-
-
 }

@@ -18,7 +18,7 @@ class TaxonPublicPhotosController
             if ($request->boolean('excludeDead')) {
                 $query->where(function ($query) {
                     $query
-                        ->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                        ->where('details_type', '!=', (new FieldObservation())->getMorphClass())
                         ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
                             $query->where('found_dead', false);
                         });

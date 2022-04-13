@@ -56,15 +56,15 @@ class VerificationController extends Controller
     public function verify(Request $request)
     {
         if ($request->user() && ! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if (! $user = $request->user() ?: User::find($request->route('id'))) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         $redirectPath = LaravelLocalization::getLocalizedURL(

@@ -8,7 +8,7 @@ $strFail = '<span class="fail">X</span>';
 $requirements = array();
 
 // PHP Version
-$requirements['php_version'] = version_compare(PHP_VERSION, PHP_VERSION_REQUIRED ,'>=');
+$requirements['php_version'] = version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '>=');
 
 // OpenSSL PHP Extension
 $requirements['openssl_enabled'] = extension_loaded('openssl');

@@ -8,7 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 class UserProfileUpdated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * @var \App\User

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConservationLegislation extends Model
 {
-    use HasFactory, Translatable, HasTranslatableAttributes;
+    use HasFactory;
+    use Translatable;
+    use HasTranslatableAttributes;
 
     protected $translationForeignKey = 'leg_id';
 
@@ -51,7 +53,8 @@ class ConservationLegislation extends Model
             Country::class,
             'country_conservation_legislation',
             'leg_id',
-            'country_id')
+            'country_id'
+        )
             ->withPivot('ref_id');
     }
 
@@ -65,7 +68,8 @@ class ConservationLegislation extends Model
         return $this->translateOrNew($this->locale())->description;
     }
 
-    public function loadReferenceId(Country $country){
+    public function loadReferenceId(Country $country)
+    {
         dd($this->countries()->where(['id' => 4])->first());
         # return $this->countries()->('country_id', $country->id)->get();
     }

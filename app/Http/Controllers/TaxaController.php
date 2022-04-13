@@ -30,5 +30,4 @@ class TaxaController
             'descendants' => $taxon->isGenusOrLower() ? $taxon->lowerRankDescendants() : collect(),
         ]);
     }
-
 }

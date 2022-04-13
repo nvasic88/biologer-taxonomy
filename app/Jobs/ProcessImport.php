@@ -11,7 +11,10 @@ use Illuminate\Queue\SerializesModels;
 
 class ProcessImport implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Run the job 10 minutes before killing the process.

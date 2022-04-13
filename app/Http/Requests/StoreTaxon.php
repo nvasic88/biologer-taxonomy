@@ -159,7 +159,7 @@ class StoreTaxon extends FormRequest
     private function createSynonyms($taxon)
     {
         $synonym_names = $this->input('synonym_names');
-        foreach ($synonym_names as $k => $v){
+        foreach ($synonym_names as $k => $v) {
             $synonym = Synonym::firstOrCreate([
                 'name' => $v,
                 'taxon_id' => $taxon->id,

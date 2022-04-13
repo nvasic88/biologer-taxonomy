@@ -160,7 +160,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     });
 
     Route::prefix('curator')->group(function () {
-
     });
 
     Route::prefix('autocomplete')->group(function () {

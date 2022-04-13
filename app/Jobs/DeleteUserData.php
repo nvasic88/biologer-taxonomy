@@ -13,7 +13,10 @@ use Illuminate\Queue\SerializesModels;
 
 class DeleteUserData implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var \App\User
